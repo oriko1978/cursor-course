@@ -191,6 +191,10 @@ export const database = {
       type: row.type as "dev" | "production",
       monthlyLimit: row.monthly_limit,
       createdAt: row.created_at,
+      lastUsed: row.last_used,
+      isActive: row.is_active,
+    };
+  },
 
   async getByUserId(userId: string): Promise<ApiKey[]> {
     const rows = await sql`
@@ -211,10 +215,6 @@ export const database = {
       lastUsed: row.last_used,
       isActive: row.is_active,
     }));
-  },
-      lastUsed: row.last_used,
-      isActive: row.is_active,
-    };
   },
 
   async create(data: {
