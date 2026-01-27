@@ -200,6 +200,192 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section id="pricing" className="bg-gray-50 py-24 dark:bg-zinc-900 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              Simple, transparent pricing
+            </h2>
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+              Choose the plan that fits your needs. Start free, upgrade as you grow.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-16 grid max-w-lg grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
+            {/* Free Tier */}
+            <div className="flex flex-col justify-between rounded-3xl border-2 border-gray-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-950">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Free</h3>
+                <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                  Perfect for personal projects and testing
+                </p>
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white">$0</span>
+                  <span className="text-sm font-semibold text-gray-600 dark:text-gray-400">/month</span>
+                </p>
+                <ul className="mt-8 space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Up to 10 API keys
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    1,000 API calls/month
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Basic analytics
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    API Playground
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Community support
+                  </li>
+                </ul>
+              </div>
+              <Link
+                href="/login"
+                className="mt-8 block rounded-lg bg-gray-900 px-6 py-3 text-center text-sm font-semibold text-white transition-all hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+              >
+                Get started for free
+              </Link>
+            </div>
+
+            {/* Pro Tier */}
+            <div className="relative flex flex-col justify-between rounded-3xl border-2 border-blue-600 bg-white p-8 shadow-xl dark:bg-zinc-950">
+              <div className="absolute -top-5 left-0 right-0 mx-auto w-fit rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-1 text-sm font-semibold text-white">
+                Most Popular
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Pro</h3>
+                <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                  For growing teams and businesses
+                </p>
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white">$29</span>
+                  <span className="text-sm font-semibold text-gray-600 dark:text-gray-400">/month</span>
+                </p>
+                <ul className="mt-8 space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Unlimited API keys
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    100,000 API calls/month
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Advanced analytics
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Team collaboration (up to 5)
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Priority email support
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Custom usage limits
+                  </li>
+                </ul>
+              </div>
+              <Link
+                href="/coming-soon?plan=pro"
+                className="mt-8 block rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 text-center text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-105"
+              >
+                Coming Soon
+              </Link>
+            </div>
+
+            {/* Enterprise Tier */}
+            <div className="flex flex-col justify-between rounded-3xl border-2 border-gray-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-950">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Enterprise</h3>
+                <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                  For large organizations with custom needs
+                </p>
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white">Custom</span>
+                </p>
+                <ul className="mt-8 space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Unlimited everything
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Custom API call limits
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Advanced security features
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Unlimited team members
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    24/7 dedicated support
+                  </li>
+                  <li className="flex gap-x-3">
+                    <svg className="h-6 w-5 flex-none text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    SLA guarantees
+                  </li>
+                </ul>
+              </div>
+              <Link
+                href="/coming-soon?plan=enterprise"
+                className="mt-8 block rounded-lg border-2 border-gray-900 bg-white px-6 py-3 text-center text-sm font-semibold text-gray-900 transition-all hover:bg-gray-50 dark:border-white dark:bg-zinc-950 dark:text-white dark:hover:bg-zinc-900"
+              >
+                Coming Soon
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
