@@ -239,8 +239,8 @@ export const database = {
   },
 
   async delete(id: string): Promise<boolean> {
-    const result = await sql`DELETE FROM api_keys WHERE id = ${id}`;
-    return result.count > 0;
+    const result = await sql`DELETE FROM api_keys WHERE id = ${id} RETURNING id`;
+    return result.length > 0;
   },
 
   async validateKey(key: string): Promise<{ valid: boolean; keyInfo?: ApiKey; message?: string }> {
