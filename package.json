@@ -9,14 +9,15 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.91.1",
+    "@langchain/community": "^1.1.7",
+    "@langchain/core": "^1.1.17",
+    "@langchain/openai": "^1.2.3",
     "better-sqlite3": "^12.6.2",
-    "https-proxy-agent": "^7.0.6",
+    "langchain": "^1.2.13",
     "next": "16.1.4",
-    "node-fetch": "^2.7.0",
+    "next-auth": "^5.0.0-beta.30",
     "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "undici": "^7.19.1"
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@prisma/client": "^7.3.0",

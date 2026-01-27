@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { ApiKeyList } from "./components/api-key-list";
+import { ApiKeyListMobile } from "./components/api-key-list-mobile";
 import { CreateApiKeyForm } from "./components/create-api-key-form";
 import { EditApiKeyForm } from "./components/edit-api-key-form";
 import { Modal } from "./components/modal";
@@ -137,14 +138,14 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-zinc-950">
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="mb-2 text-sm text-gray-500 dark:text-gray-400">
             Pages / Overview
           </div>
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
               Overview
             </h1>
             <div className="flex items-center gap-2">
@@ -159,13 +160,13 @@ export default function DashboardPage() {
         </div>
 
         {/* Usage Card */}
-        <div className="mb-8 rounded-xl bg-white p-8 shadow-sm dark:bg-zinc-900">
-          <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 rounded-xl bg-white p-6 shadow-sm dark:bg-zinc-900 sm:mb-8 sm:p-8">
+          <div className="mb-4 flex items-center justify-between sm:mb-6">
             <div>
               <div className="mb-2 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                 Current Plan
               </div>
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
                 Developer
               </h2>
             </div>
@@ -224,9 +225,9 @@ export default function DashboardPage() {
         <ToastContainer toasts={toasts} onClose={closeToast} />
 
         {/* API Keys Section */}
-        <div className="rounded-xl bg-white p-8 shadow-sm dark:bg-zinc-900">
-          <div className="mb-6 flex items-center justify-between">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+        <div className="rounded-xl bg-white p-4 shadow-sm dark:bg-zinc-900 sm:p-8">
+          <div className="mb-4 flex items-center justify-between sm:mb-6">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white sm:text-xl">
               API Keys
             </h3>
             <button
@@ -234,7 +235,7 @@ export default function DashboardPage() {
                 setShowCreateForm(!showCreateForm);
                 setEditingKey(null);
               }}
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-600 transition-colors hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-400 dark:hover:bg-zinc-700"
+              className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-xl font-semibold text-white transition-colors hover:bg-blue-700 sm:h-8 sm:w-8 sm:bg-gray-100 sm:text-gray-600 sm:hover:bg-gray-200 dark:sm:bg-zinc-800 dark:sm:text-gray-400 dark:sm:hover:bg-zinc-700"
               title={showCreateForm ? "Cancel" : "Add API Key"}
             >
               {showCreateForm ? "×" : "+"}
@@ -246,13 +247,29 @@ export default function DashboardPage() {
               <div className="text-gray-600 dark:text-gray-400">Loading...</div>
             </div>
           ) : (
-          <ApiKeyList
-            apiKeys={apiKeys}
-            onDelete={handleDeleteClick}
-            onToggle={handleToggleKey}
-            onEdit={handleEditClick}
-            onCopy={() => showToast("Copied API Key to clipboard")}
-          />
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden md:block">
+                <ApiKeyList
+                  apiKeys={apiKeys}
+                  onDelete={handleDeleteClick}
+                  onToggle={handleToggleKey}
+                  onEdit={handleEditClick}
+                  onCopy={() => showToast("Copied API Key to clipboard")}
+                />
+              </div>
+              
+              {/* Mobile Card View */}
+              <div className="md:hidden">
+                <ApiKeyListMobile
+                  apiKeys={apiKeys}
+                  onDelete={handleDeleteClick}
+                  onToggle={handleToggleKey}
+                  onEdit={handleEditClick}
+                  onCopy={() => showToast("Copied API Key to clipboard")}
+                />
+              </div>
+            </>
           )}
         </div>
       </div>

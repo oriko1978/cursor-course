@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 
 interface NavItem {
   name: string;
@@ -68,19 +70,55 @@ const navigation: NavItem[] = [
   },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  session: Session | null;
+}
+
+export function Sidebar({ session }: SidebarProps) {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const userInitial = session?.user?.name?.charAt(0).toUpperCase() || "U";
+  const userName = session?.user?.name || "User";
+  const userEmail = session?.user?.email || "";
 
   return (
-    <div
-      className={`relative flex h-screen flex-col border-r border-gray-200 bg-white transition-all duration-300 dark:border-zinc-800 dark:bg-zinc-950 ${
-        isCollapsed ? "w-16" : "w-56"
-      }`}
-    >
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="fixed left-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow-lg dark:bg-zinc-900 lg:hidden"
+      >
+        {isMobileMenuOpen ? (
+          <svg className="h-6 w-6 text-gray-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        ) : (
+          <svg className="h-6 w-6 text-gray-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        )}
+      </button>
+
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`fixed inset-y-0 left-0 z-40 flex h-screen flex-col border-r border-gray-200 bg-white transition-all duration-300 dark:border-zinc-800 dark:bg-zinc-950 lg:static ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        } ${isCollapsed ? "w-16" : "w-56"}`}
+      >
       {/* Logo & Toggle */}
       <div className="flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
             <span className="text-lg font-bold text-white">D</span>
           </div>
@@ -90,7 +128,7 @@ export function Sidebar() {
         </Link>
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="rounded-lg p-1.5 text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-zinc-900"
+          className="hidden rounded-lg p-1.5 text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-zinc-900 lg:block"
           title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           <svg
@@ -119,28 +157,65 @@ export function Sidebar() {
       </div>
 
       {/* User Info */}
-      <div className="border-b border-gray-200 px-4 py-4 dark:border-zinc-800">
+      <div className="relative border-b border-gray-200 px-4 py-4 dark:border-zinc-800">
         {isCollapsed ? (
           <div className="flex justify-center">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-blue-500 text-sm font-semibold text-white">
-              O
-            </div>
+            {session?.user?.image ? (
+              <img
+                src={session.user.image}
+                alt={userName}
+                className="h-8 w-8 rounded-full"
+              />
+            ) : (
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-blue-500 text-sm font-semibold text-white">
+                {userInitial}
+              </div>
+            )}
           </div>
         ) : (
-          <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3 dark:bg-zinc-900">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-blue-500 text-sm font-semibold text-white">
-              O
-            </div>
-            <div className="flex-1 overflow-hidden">
-              <div className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                Personal
+          <div>
+            <button
+              onClick={() => setShowUserMenu(!showUserMenu)}
+              className="flex w-full items-center gap-3 rounded-lg bg-gray-50 p-3 hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+            >
+              {session?.user?.image ? (
+                <img
+                  src={session.user.image}
+                  alt={userName}
+                  className="h-8 w-8 rounded-full"
+                />
+              ) : (
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-blue-500 text-sm font-semibold text-white">
+                  {userInitial}
+                </div>
+              )}
+              <div className="flex-1 overflow-hidden text-left">
+                <div className="truncate text-sm font-medium text-gray-900 dark:text-white">
+                  {userName}
+                </div>
+                <div className="truncate text-xs text-gray-500 dark:text-gray-400">
+                  {userEmail}
+                </div>
               </div>
-            </div>
-            <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
+
+            {/* User Menu Dropdown */}
+            {showUserMenu && (
+              <div className="absolute left-4 right-4 z-50 mt-2 rounded-lg border border-gray-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/20"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Sign Out
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -154,6 +229,7 @@ export function Sidebar() {
               <li key={item.name}>
                 <Link
                   href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                     isActive
                       ? "bg-blue-50 text-blue-600 dark:bg-blue-950/20 dark:text-blue-400"
@@ -199,6 +275,7 @@ export function Sidebar() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
