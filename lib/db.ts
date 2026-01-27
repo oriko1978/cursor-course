@@ -5,8 +5,8 @@ import { randomBytes } from "crypto";
 const IS_PRODUCTION = !!process.env.DATABASE_URL;
 
 // Conditional imports based on environment
-let Database: typeof import("better-sqlite3").default | undefined;
-let path: typeof import("path") | undefined;
+let Database: any;
+let path: any;
 
 // Only import SQLite modules in non-production (local development)
 if (!IS_PRODUCTION) {
