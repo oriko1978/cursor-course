@@ -191,6 +191,27 @@ export const database = {
       type: row.type as "dev" | "production",
       monthlyLimit: row.monthly_limit,
       createdAt: row.created_at,
+
+  async getByUserId(userId: string): Promise<ApiKey[]> {
+    const rows = await sql`
+      SELECT id, user_id, name, key, type, monthly_limit, created_at, last_used, is_active
+      FROM api_keys
+      WHERE user_id = ${userId}
+      ORDER BY created_at DESC
+    `;
+    
+    return rows.map((row) => ({
+      id: row.id,
+      userId: row.user_id,
+      name: row.name,
+      key: row.key,
+      type: row.type as "dev" | "production",
+      monthlyLimit: row.monthly_limit,
+      createdAt: row.created_at,
+      lastUsed: row.last_used,
+      isActive: row.is_active,
+    }));
+  },
       lastUsed: row.last_used,
       isActive: row.is_active,
     };

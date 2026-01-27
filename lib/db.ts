@@ -232,6 +232,29 @@ export const database = {
     };
   },
 
+  getByUserId(userId: string): ApiKey[] {
+    const stmt = db.prepare(`
+      SELECT id, user_id, name, key, type, monthly_limit, created_at, last_used, is_active
+      FROM api_keys
+      WHERE user_id = ?
+      ORDER BY created_at DESC
+    `);
+    
+    const rows = stmt.all(userId) as any[];
+    
+    return rows.map((row) => ({
+      id: row.id,
+      userId: row.user_id,
+      name: row.name,
+      key: row.key,
+      type: row.type as "dev" | "production",
+      monthlyLimit: row.monthly_limit,
+      createdAt: row.created_at,
+      lastUsed: row.last_used,
+      isActive: Boolean(row.is_active),
+    }));
+  },
+
   create(data: {
     name: string;
     type: "dev" | "production";
