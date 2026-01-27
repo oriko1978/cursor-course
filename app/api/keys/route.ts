@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { database } from "@/lib/db";
+const { database } = require("@/lib/db-wrapper");
 
 // GET /api/keys - List all API keys
 export async function GET() {
   try {
-    const keys = database.getAll();
+    const keys = await database.getAll();
     return NextResponse.json({ keys }, { status: 200 });
   } catch (error) {
     console.error("Error fetching API keys:", error);
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = database.create({
+    const apiKey = await database.create({
       name,
       type,
       monthlyLimit: monthlyLimit ? parseInt(monthlyLimit) : undefined,

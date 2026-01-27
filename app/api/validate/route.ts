@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { database } from "@/lib/db";
+const { database } = require("@/lib/db-wrapper");
 
 // POST /api/validate - Validate an API key
 export async function POST(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = database.validateKey(apiKey);
+    const result = await database.validateKey(apiKey);
 
     if (!result.valid) {
       return NextResponse.json(result, { status: 200 });

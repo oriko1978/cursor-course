@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { database } from "@/lib/db";
+const { database } = require("@/lib/db-wrapper");
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -19,7 +19,7 @@ export async function PATCH(
     if (typeof isActive === "boolean") updates.isActive = isActive;
     if (typeof name === "string") updates.name = name;
 
-    const updatedKey = database.update(id, updates);
+    const updatedKey = await database.update(id, updates);
 
     if (!updatedKey) {
       return NextResponse.json({ error: "API key not found" }, { status: 404 });
@@ -42,7 +42,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await context.params;
-    const deleted = database.delete(id);
+    const deleted = await database.delete(id);
 
     if (!deleted) {
       return NextResponse.json({ error: "API key not found" }, { status: 404 });

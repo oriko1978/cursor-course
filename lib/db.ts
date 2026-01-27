@@ -1,43 +1,59 @@
-import Database from "better-sqlite3";
+// Database wrapper that switches between SQLite (local) and Postgres (production)
 import { randomBytes } from "crypto";
-import path from "path";
 
-// Initialize SQLite database
-const dbPath = path.join(process.cwd(), "data", "api-keys.db");
-const db = new Database(dbPath);
+// Check if we're in production (Vercel) with DATABASE_URL
+const IS_PRODUCTION = !!process.env.DATABASE_URL;
 
-// Enable WAL mode for better concurrent access
-db.pragma("journal_mode = WAL");
+// Conditional imports based on environment
+let Database: typeof import("better-sqlite3").default | undefined;
+let path: typeof import("path") | undefined;
 
-// Create tables if they don't exist
-db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    id TEXT PRIMARY KEY,
-    email TEXT NOT NULL UNIQUE,
-    name TEXT,
-    image TEXT,
-    created_at TEXT NOT NULL DEFAULT (datetime('now')),
-    last_login TEXT NOT NULL DEFAULT (datetime('now'))
-  );
+// Only import SQLite modules in non-production (local development)
+if (!IS_PRODUCTION) {
+  Database = require("better-sqlite3");
+  path = require("path");
+}
 
-  CREATE TABLE IF NOT EXISTS api_keys (
-    id TEXT PRIMARY KEY,
-    user_id TEXT,
-    name TEXT NOT NULL,
-    key TEXT NOT NULL UNIQUE,
-    type TEXT NOT NULL CHECK (type IN ('dev', 'production')),
-    monthly_limit INTEGER,
-    created_at TEXT NOT NULL DEFAULT (datetime('now')),
-    last_used TEXT,
-    is_active INTEGER NOT NULL DEFAULT 1,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-  );
+// Initialize SQLite database (only in local development)
+let db: any;
+if (!IS_PRODUCTION && Database && path) {
+  const dbPath = path.join(process.cwd(), "data", "api-keys.db");
+  db = new Database(dbPath);
+  // Enable WAL mode for better concurrent access
+  db.pragma("journal_mode = WAL");
+}
 
-  CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
-  CREATE INDEX IF NOT EXISTS idx_api_keys_key ON api_keys(key);
-  CREATE INDEX IF NOT EXISTS idx_api_keys_user_id ON api_keys(user_id);
-  CREATE INDEX IF NOT EXISTS idx_api_keys_is_active ON api_keys(is_active);
-`);
+// Create tables if they don't exist (only for SQLite in local development)
+if (!IS_PRODUCTION && db) {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      email TEXT NOT NULL UNIQUE,
+      name TEXT,
+      image TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      last_login TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS api_keys (
+      id TEXT PRIMARY KEY,
+      user_id TEXT,
+      name TEXT NOT NULL,
+      key TEXT NOT NULL UNIQUE,
+      type TEXT NOT NULL CHECK (type IN ('dev', 'production')),
+      monthly_limit INTEGER,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      last_used TEXT,
+      is_active INTEGER NOT NULL DEFAULT 1,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+    CREATE INDEX IF NOT EXISTS idx_api_keys_key ON api_keys(key);
+    CREATE INDEX IF NOT EXISTS idx_api_keys_user_id ON api_keys(user_id);
+    CREATE INDEX IF NOT EXISTS idx_api_keys_is_active ON api_keys(is_active);
+  `);
+}
 
 export interface User {
   id: string;
@@ -333,7 +349,10 @@ export const database = {
   },
 };
 
-// Seed the database on initialization
-database.seed();
+// Seed the database on initialization (only for SQLite in local development)
+if (!IS_PRODUCTION) {
+  database.seed();
+}
 
 export default db;
+export { IS_PRODUCTION };

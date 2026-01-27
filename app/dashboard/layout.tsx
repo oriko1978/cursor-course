@@ -1,7 +1,7 @@
 import { Sidebar } from "./components/sidebar";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-import { database } from "@/lib/db";
+const { database } = require("@/lib/db-wrapper");
 
 export default async function DashboardLayout({
   children,
@@ -13,7 +13,7 @@ export default async function DashboardLayout({
   // Track user in database when they access the dashboard
   if (session?.user?.email) {
     try {
-      database.users.upsert({
+      await database.users.upsert({
         email: session.user.email,
         name: session.user.name || undefined,
         image: session.user.image || undefined,

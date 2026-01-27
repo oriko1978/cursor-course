@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { database } from "@/lib/db";
+const { database } = require("@/lib/db-wrapper");
 import { auth } from "@/auth";
 
 export async function GET() {
@@ -13,7 +13,7 @@ export async function GET() {
       );
     }
 
-    const users = database.users.getAll();
+    const users = await database.users.getAll();
     return NextResponse.json(users);
   } catch (error) {
     console.error("Error fetching users:", error);

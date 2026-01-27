@@ -12,6 +12,7 @@
     "@langchain/community": "^1.1.7",
     "@langchain/core": "^1.1.17",
     "@langchain/openai": "^1.2.3",
+    "@neondatabase/serverless": "^1.0.2",
     "better-sqlite3": "^12.6.2",
     "langchain": "^1.2.13",
     "next": "16.1.4",
