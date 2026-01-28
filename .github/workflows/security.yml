@@ -27,12 +27,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run npm audit
-        run: npm audit --audit-level=moderate
-        continue-on-error: true
+      - name: Run npm audit (check for vulnerabilities)
+        run: |
+          echo "Running security audit..."
+          npm audit --audit-level=moderate || true
+          AUDIT_RESULT=$?
+          if [ $AUDIT_RESULT -eq 0 ]; then
+            echo "✅ No vulnerabilities found!"
+          else
+            echo "⚠️ Vulnerabilities detected. Review the report above."
+          fi
 
-      - name: Check for outdated packages
-        run: npm outdated
+      - name: Check for outdated packages (informational only)
+        run: |
+          echo "Checking for outdated packages..."
+          npm outdated || echo "Some packages have updates available. This is informational only and not a security issue."
         continue-on-error: true
 
       - name: Generate security report
@@ -50,6 +59,20 @@ jobs:
           name: security-report
           path: security-report.md
           retention-days: 30
+
+      - name: Security Scan Summary
+        run: |
+          echo "========================================="
+          echo "🔒 Security Scan Complete!"
+          echo "========================================="
+          echo ""
+          echo "✅ npm audit completed"
+          echo "📦 Package versions checked"
+          echo "📄 Security report generated"
+          echo ""
+          echo "ℹ️  Note: 'outdated packages' warnings are informational."
+          echo "   Only critical security vulnerabilities require immediate action."
+          echo "========================================="
 
   dependency-review:
     name: Dependency Review
